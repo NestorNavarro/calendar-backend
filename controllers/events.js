@@ -38,15 +38,16 @@ const updateEvent = async(req, res = response) => {
 
     try {
         const event = await Event.findById(eventId);
+
         if(!event) {
             return res.status(404).json({
                 ok: false,
                 msg: 'Event not found',
             });
         }
-
+    
         if(event.user.toString() !== uid){
-            res.status(401).json({
+            return res.status(401).json({
                 ok: false,
                 msg: 'The user is not allowed to do this action',
             });
@@ -84,7 +85,7 @@ const deleteEvent = async(req, res = response) => {
         }
 
         if(event.user.toString() !== uid){
-            res.status(401).json({
+            return res.status(401).json({
                 ok: false,
                 msg: 'The user is not allowed to do this action',
             });
@@ -94,7 +95,7 @@ const deleteEvent = async(req, res = response) => {
         return res.status(201).json({ ok: true });
     } catch (error) {
         console.log(error);
-        res.status(500).json({
+        return res.status(500).json({
             ok: false,
             msg: 'Inform about this problem to the admin'
         });
